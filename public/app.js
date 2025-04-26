@@ -1,5 +1,5 @@
 // API endpoints
-const API_URL = 'https://prakash-mart.onrender.com';
+const API_URL = 'https://prakash-mart.onrender.com/api';
 
 // Cart state
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
