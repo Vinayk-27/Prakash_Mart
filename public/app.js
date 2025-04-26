@@ -159,6 +159,62 @@ function showNotification(message) {
     }, 3000);
 }
 
+// Generate PDF bill
+function generateBillPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    // Add header
+    doc.setFontSize(20);
+    doc.text('PrakashMart', 20, 20);
+    doc.setFontSize(12);
+    doc.text('Invoice', 20, 30);
+    doc.text(`Date: ${new Date().toLocaleDateString()}`, 20, 40);
+
+    // Add customer details
+    doc.setFontSize(12);
+    doc.text('Customer Details:', 20, 60);
+    doc.text('Name: Customer', 20, 70);
+    doc.text('Phone: +91 1234567890', 20, 80);
+
+    // Add items table
+    let y = 100;
+    doc.setFontSize(12);
+    doc.text('Items', 20, y);
+    doc.text('Quantity', 80, y);
+    doc.text('Price', 120, y);
+    doc.text('Total', 160, y);
+
+    y += 10;
+    let grandTotal = 0;
+
+    cart.forEach(item => {
+        const itemPrice = parseInt(item.price.replace('₹', ''));
+        const itemTotal = itemPrice * item.quantity;
+        grandTotal += itemTotal;
+
+        doc.text(item.name, 20, y);
+        doc.text(item.quantity.toString(), 80, y);
+        doc.text(item.price, 120, y);
+        doc.text(`₹${itemTotal}`, 160, y);
+        y += 10;
+    });
+
+    // Add total
+    y += 10;
+    doc.setFontSize(14);
+    doc.text(`Grand Total: ₹${grandTotal}`, 20, y);
+
+    // Add footer
+    y += 20;
+    doc.setFontSize(10);
+    doc.text('Thank you for shopping with PrakashMart!', 20, y);
+    doc.text('For any queries, contact: support@prakashmart.com', 20, y + 10);
+
+    // Save the PDF
+    doc.save(`PrakashMart_Bill_${new Date().toISOString().split('T')[0]}.pdf`);
+}
+
 // Event listeners
 searchInput.addEventListener('input', filterProducts);
 categorySelect.addEventListener('change', filterProducts);
@@ -168,6 +224,9 @@ checkoutBtn.addEventListener('click', async () => {
         return;
     }
     try {
+        // Generate and download the bill
+        generateBillPDF();
+
         const response = await fetch(`${API_URL}/orders`, {
             method: 'POST',
             headers: {
