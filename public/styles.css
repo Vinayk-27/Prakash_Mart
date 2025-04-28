@@ -1,9 +1,13 @@
 :root {
-    --primary-color: #4CAF50;
-    --secondary-color: #2E7D32;
-    --accent-color: #FFC107;
+    --primary-color: #00aaff;
+    /* Sky Blue */
+    --secondary-color: #0077cc;
+    /* Darker Sky Blue */
+    --accent-color: #ffcc00;
+    /* Accent Yellow */
     --text-color: #333;
-    --light-gray: #f5f5f5;
+    --light-gray: #f0f9ff;
+    /* Very light sky blue background */
     --white: #ffffff;
     --shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
